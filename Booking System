@@ -1,0 +1,34 @@
+class BookingSystem:
+    def __init__(self, total_seats=10):
+        self.seats = {i: None for i in range(1, total_seats + 1)}
+        self.users = {}  # Stores users (username: password)
+
+    def register_user(self, username, password):
+        if username in self.users:
+            return "User already exists!"
+        self.users[username] = password
+        return "User registered successfully!"
+
+    def login_user(self, username, password):
+        return self.users.get(username) == password
+
+    def book_seat(self, username, seat_number):
+        if seat_number not in self.seats:
+            return "Invalid seat number!"
+        if self.seats[seat_number] is None:
+            self.seats[seat_number] = username
+            return f"Seat {seat_number} successfully booked for {username}!"
+        return f"Seat {seat_number} is already booked!"
+
+    def display_seats(self):
+        return {seat: user if user else "Available" for seat, user in self.seats.items()}
+
+# Example Usage
+booking = BookingSystem()
+print(booking.register_user("shivu", "shiva@123"))
+print(booking.login_user("shivu", "shiva@123"))  # True
+
+print(booking.book_seat("shivu", 2))
+print(booking.book_seat("shivu", 5))
+print(booking.display_seats())
+
